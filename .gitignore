@@ -1,3 +1,4 @@
 ﻿.vs
 grocery-list-backend/bin
 grocery-list-backend/obj
+grocery-list-backend/Properties/Resources.resx

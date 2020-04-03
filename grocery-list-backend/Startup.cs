@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using grocery_list_backend.DataAccess;
+using grocery_list_backend.Properties;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace grocery_list_backend
 {
@@ -32,6 +30,11 @@ namespace grocery_list_backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GroceryListApi", Version = "v1" });
             });
+
+            services.AddDbContextPool<MysqlDbContext>(options => options
+                .UseMySql(Resources.ResourceManager.GetString("db-connectionstring"), mySqlOptions => mySqlOptions
+                .ServerVersion(new Version(5, 7, 0), ServerType.MySql)
+            ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
